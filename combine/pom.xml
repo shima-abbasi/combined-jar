@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.shima</groupId>
+        <artifactId>combine-multipe-jars</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>combine</artifactId>
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <!-- Plugin to combine JARs and classes -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${maven-antrun-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>combine-jars</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.directory}"/>
+                                <jar destfile="${project.build.directory}/${project.artifactId}-${project.version}.jar">
+                                    <fileset dir="../sample-module-one/target/classes">
+                                        <include name="**/*.class"/>
+                                    </fileset>
+                                    <fileset dir="../sample-module-two/target/classes">
+                                        <include name="**/*.class"/>
+                                    </fileset>
+                                </jar>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
